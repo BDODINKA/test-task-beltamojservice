@@ -141,11 +141,17 @@ export default defineComponent({
           openModal: true,
         });
       }
-      if (title === ActionsButton.DELETE) {
+      if (title === ActionsButton.DELETE && this.selected.length) {
         this.$store.dispatch(
           UsersActions.DELETE_USER,
           this.selected.shift()?.id
         );
+      }
+      if (title === ActionsButton.DELETE && !this.selected.length) {
+        this.$store.commit(UsersMutations.SET_ERROR, {
+          message: ErrorMessage.NOT_SELECTED_USER,
+          openModal: true,
+        });
       }
     },
   },
