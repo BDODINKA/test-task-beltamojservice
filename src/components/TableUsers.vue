@@ -131,11 +131,17 @@ export default defineComponent({
         this.$store.commit(UsersMutations.SET_USER_FORM, true);
         this.selected = [];
       }
+      if (title === ActionsButton.CHANGE && !this.selected.length) {
+        this.$store.commit(UsersMutations.SET_ERROR, {
+          message: ErrorMessage.NOT_SELECTED_USER,
+          openModal: true,
+        });
+      }
       if (title === ActionsButton.CHANGE && this.selected.length) {
         this.menuAction = UsersActions.CHANGE_USER_ALL;
         this.$store.state.usersForm = true;
       }
-      if (title === ActionsButton.CHANGE && !this.selected.length) {
+      if (title === ActionsButton.DELETE && !this.selected.length) {
         this.$store.commit(UsersMutations.SET_ERROR, {
           message: ErrorMessage.NOT_SELECTED_USER,
           openModal: true,
@@ -146,12 +152,6 @@ export default defineComponent({
           UsersActions.DELETE_USER,
           this.selected.shift()?.id
         );
-      }
-      if (title === ActionsButton.DELETE && !this.selected.length) {
-        this.$store.commit(UsersMutations.SET_ERROR, {
-          message: ErrorMessage.NOT_SELECTED_USER,
-          openModal: true,
-        });
       }
     },
   },
